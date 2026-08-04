@@ -1,7 +1,7 @@
 # Maintainer: chadsr <git at ross dot ch>
 
 pkgname=hyprls
-pkgver=0.14.0 # renovate: datasource=github-tags depName=hyprland-community/hyprls
+pkgver=0.14.0 # renovate: datasource=github-releases depName=hyprland-community/hyprls
 pkgrel=2
 pkgdesc="A LSP server for Hyprland config files"
 arch=('x86_64' 'aarch64')
