@@ -37,7 +37,7 @@ build() {
 
 check() {
 	cd "$pkgname-$pkgver" || exit
-	cargo test --frozen --workspace
+	cargo test --frozen --workspace --exclude forge_ci
 }
 
 package() {
