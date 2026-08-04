@@ -2,7 +2,7 @@
 
 pkgname=waybar-crypto
 pkgver=1.6.1 # renovate: datasource=github-tags depName=chadsr/waybar-crypto
-pkgrel=1
+pkgrel=2
 pkgdesc='A Waybar module for displaying cryptocurrency market information from CoinMarketCap.'
 arch=('any')
 url='https://github.com/chadsr/waybar-crypto'
