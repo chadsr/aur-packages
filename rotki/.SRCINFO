@@ -12,6 +12,7 @@ pkgbase = rotki
 	makedepends = nodejs
 	makedepends = pnpm
 	makedepends = nvm
+	makedepends = libxcrypt-compat
 	depends = gtk3
 	depends = nss
 	provides = rotki
