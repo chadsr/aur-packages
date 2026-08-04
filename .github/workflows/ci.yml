@@ -16,12 +16,12 @@ jobs:
           fetch-depth: 0
       - name: All files (main)
         if: ${{ github.ref == 'refs/heads/main' }}
-        uses: j178/prek-action@v2
+        uses: j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece # v3.0.0
         with:
           extra-args: '--all-files'
       - name: Changed files (PR)
         if: ${{ github.ref != 'refs/heads/main' }}
-        uses: j178/prek-action@v2
+        uses: j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece # v3.0.0
         with:
           extra-args: >-
             --from-ref ${{ github.event.pull_request.base.sha }} --to-ref ${{ github.event.pull_request.head.sha }}
