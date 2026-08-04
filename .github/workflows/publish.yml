@@ -4,7 +4,7 @@ on:
     branches:
       - main
     paths:
-      - "*/PKGBUILD"
+      - '*/PKGBUILD'
 jobs:
   find-packages:
     runs-on: ubuntu-latest
@@ -31,6 +31,7 @@ jobs:
   publish:
     name: Publish ${{ matrix.pkgbuild }}
     needs: find-packages
+    environment: publish
     if: ${{ needs.find-packages.outputs.count != '0' }}
     strategy:
       fail-fast: false
