@@ -20,7 +20,6 @@ makedepends=(
 	'cmake'
 	'clang'
 )
-optdepends=('git: For git-related operations')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
 b2sums=('3a1c4a36e640f03202401e155d7195c4a566d45e0ac1a4c7db83f0c807c39b941ad0520f78a12cb21c91c1b4661a137e5ba4a81d5a7d3f39b1f21f6467136beb')
 options=(!lto)

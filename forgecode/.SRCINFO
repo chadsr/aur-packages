@@ -13,7 +13,6 @@ pkgbase = forgecode
 	depends = fzf
 	depends = bat
 	depends = fd
-	optdepends = git: For git-related operations
 	provides = forge
 	conflicts = forge
 	options = !lto
