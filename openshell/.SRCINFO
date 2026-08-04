@@ -1,0 +1,25 @@
+pkgbase = openshell
+	pkgdesc = The safe, private runtime for autonomous AI agents.
+	pkgver = 0.0.96
+	pkgrel = 1
+	url = https://github.com/NVIDIA/OpenShell
+	install = openshell.install
+	arch = x86_64
+	arch = aarch64
+	license = Apache-2.0
+	makedepends = cargo
+	makedepends = clang
+	makedepends = cmake
+	makedepends = pandoc
+	depends = z3
+	depends = sqlite
+	optdepends = bash-completion: bash completions
+	optdepends = docker: alternative compute driver
+	optdepends = podman: default compute driver
+	conflicts = openshell-bin
+	conflicts = openshell-git
+	options = !lto
+	source = openshell-0.0.96.tar.gz::https://github.com/NVIDIA/OpenShell/archive/refs/tags/v0.0.96.tar.gz
+	b2sums = d62d988dbcc6a8ea05b79b040cbd0a2f4e5af0f4be9f7a2fa992a7894d77fb0753e257c40cd2fdd86e9b1262b8ca0ffc98a557bece847cfb9fd9dda8d1a3c31e
+
+pkgname = openshell
