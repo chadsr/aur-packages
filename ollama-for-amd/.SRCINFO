@@ -1,27 +1,17 @@
 pkgbase = ollama-for-amd
 	pkgdesc = Create, run and share large language models (LLMs) with ROCm, patched for AMD GPUs
 	pkgver = 0.30.0
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/likelovewant/ollama-for-amd
 	arch = x86_64
 	arch = aarch64
 	license = MIT
 	makedepends = cmake
 	makedepends = git
-	makedepends = gcc-libs
 	makedepends = go>=1.24
-	makedepends = hip-runtime-amd>=6.3.2
-	makedepends = hipblas
 	makedepends = hipblas-common
-	makedepends = hsa-rocr
-	makedepends = libdrm
-	makedepends = libelf
-	makedepends = numactl
-	makedepends = rocblas
 	makedepends = rocm-hip-sdk
 	makedepends = rocm-opencl-sdk
-	makedepends = rocsolver
-	makedepends = rocsparse
 	depends = comgr
 	depends = gcc-libs
 	depends = hip-runtime-amd>=6.3.2

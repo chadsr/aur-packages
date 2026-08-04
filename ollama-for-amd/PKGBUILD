@@ -15,7 +15,7 @@ conflicts=(ollama ollama-rocm)
 provides=("ollama=${pkgver}")
 depends=(comgr gcc-libs "hip-runtime-amd>=6.3.2" hipblas hsa-rocr libdrm libelf numactl rocblas rocsolver rocsparse)
 optdepends=('rocm-smi-lib: monitor GPU usage with rocm-smi' 'amdgpu_top: tool that shows AMD GPU utilization')
-makedepends=(cmake git gcc-libs "go>=1.24" "hip-runtime-amd>=6.3.2" hipblas hipblas-common hsa-rocr libdrm libelf numactl rocblas rocm-hip-sdk rocm-opencl-sdk rocsolver rocsparse)
+makedepends=(cmake git "go>=1.24" hipblas-common rocm-hip-sdk rocm-opencl-sdk)
 options=(!distcc !debug strip lto)
 source=("${pkgname}-${pkgver}.tar.gz::${url}/archive/refs/tags/v${pkgver}.tar.gz"
 	ollama.service
