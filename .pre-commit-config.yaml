@@ -25,6 +25,13 @@ repos:
     rev: v0.11.0
     hooks:
       - id: shellcheck
+        name: shellcheck (scripts)
+        exclude: '(^|/)PKGBUILD$'
+      - id: shellcheck
+        alias: shellcheck-pkgbuild
+        name: shellcheck (PKGBUILD)
+        files: '(^|/)PKGBUILD$'
+        args: ['--rcfile=.shellcheckrc-pkgbuild']
   - repo: https://github.com/rhysd/actionlint
     rev: v1.7.12
     hooks:
