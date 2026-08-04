@@ -52,6 +52,14 @@ jobs:
         with:
           action: 'updpkgsums'
           pkgname: ${{ matrix.pkgbuild }}
+      - name: Install prek
+        uses: j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece # v3.0.0
+        with:
+          install-only: true
+      - name: Format regenerated files
+        env:
+          PKG: ${{ matrix.pkgbuild }}
+        run: prek run --files "$PKG/PKGBUILD" "$PKG/.SRCINFO" || true
       - name: Stage updated package
         env:
           PKGBUILD_DIR: ${{ matrix.pkgbuild }}
