@@ -1,7 +1,7 @@
 # Maintainer: Ross <git at ross dot ch>
 
 pkgname=forgecode
-pkgver=2.13.21 # renovate: datasource=github-tags depName=antinomyhq/forgecode
+pkgver=2.13.21 # renovate: datasource=github-releases depName=antinomyhq/forgecode
 pkgrel=2
 pkgdesc="An AI-powered code assistant CLI tool"
 arch=('x86_64' 'aarch64')
