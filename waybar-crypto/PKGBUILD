@@ -1,4 +1,4 @@
-# Maintainer: chadsr <git@ross.ch>
+# Maintainer: chadsr <git at ross dot ch>
 
 pkgname=waybar-crypto
 pkgver=1.6.1 # renovate: datasource=github-tags depName=chadsr/waybar-crypto
