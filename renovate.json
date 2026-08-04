@@ -18,5 +18,8 @@
     ":semanticCommits",
     ":semanticCommitScope(deps)",
     "helpers:pinGitHubActionDigests"
-  ]
+  ],
+  "pre-commit": {
+    "enabled": true
+  }
 }
