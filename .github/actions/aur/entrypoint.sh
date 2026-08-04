@@ -27,7 +27,9 @@ git diff PKGBUILD
 echo "::endgroup::"
 
 echo "::group::Installing depends using paru"
+# shellcheck source=/dev/null
 source PKGBUILD
+# shellcheck disable=SC2154
 paru -Syu --removemake --needed --noconfirm "${depends[@]}" "${makedepends[@]}"
 echo "::endgroup::"
 

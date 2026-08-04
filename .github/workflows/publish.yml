@@ -1,12 +1,10 @@
 name: publish
-
 on:
   push:
     branches:
       - main
     paths:
       - "*/PKGBUILD"
-
 jobs:
   find-packages:
     runs-on: ubuntu-latest
@@ -18,7 +16,6 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
-
       - name: Find updated packages
         id: packages
         env:
@@ -31,7 +28,6 @@ jobs:
           packages=$(.github/scripts/find-changed-packages.sh "$BASE_SHA" "$HEAD_SHA")
           echo "count=$(jq length <<<"$packages")" >> "$GITHUB_OUTPUT"
           echo "packages=$packages" >> "$GITHUB_OUTPUT"
-
   publish:
     name: Publish ${{ matrix.pkgbuild }}
     needs: find-packages
@@ -44,7 +40,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-
       - name: Publish package
         uses: KSXGitHub/github-actions-deploy-aur@084b0d9b15415bf9cdb65d44dad1efe37a354050 # v4.2.0
         with:

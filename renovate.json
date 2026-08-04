@@ -1,22 +1,22 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "customManagers": [
+    {
+      "customType": "regex",
+      "extractVersionTemplate": "^v?(?<version>.*)$",
+      "managerFilePatterns": [
+        "/(^|/)PKGBUILD$/"
+      ],
+      "matchStrings": [
+        "pkgver=(?<currentValue>.*) # renovate: datasource=(?<datasource>.*) depName=(?<depName>.*)"
+      ]
+    }
+  ],
   "extends": [
     "config:recommended",
     ":rebaseStalePrs",
     ":semanticCommits",
     ":semanticCommitScope(deps)",
     "helpers:pinGitHubActionDigests"
-  ],
-  "customManagers": [
-    {
-      "customType": "regex",
-      "managerFilePatterns": [
-        "/(^|/)PKGBUILD$/"
-      ],
-      "matchStrings": [
-        "pkgver=(?<currentValue>.*) # renovate: datasource=(?<datasource>.*) depName=(?<depName>.*)"
-      ],
-      "extractVersionTemplate": "^v?(?<version>.*)$"
-    }
   ]
 }
