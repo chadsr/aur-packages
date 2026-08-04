@@ -37,6 +37,25 @@ echo "::group::Running makepkg"
 makepkg
 echo "::endgroup::"
 
+echo "::group::namcap (built package)"
+namcap ./*.pkg.tar.* >namcap-pkg.log 2>&1 || true
+if [ -s namcap-pkg.log ]; then
+	while IFS= read -r line; do
+		echo "::warning file=${INPUT_PKGNAME}/PKGBUILD::namcap: ${line}"
+	done <namcap-pkg.log
+else
+	echo "namcap: no issues found"
+fi
+if [ -n "${GITHUB_STEP_SUMMARY:-}" ]; then
+	{
+		echo "### namcap (built package)"
+		echo '```'
+		cat namcap-pkg.log
+		echo '```'
+	} >>"$GITHUB_STEP_SUMMARY"
+fi
+echo "::endgroup::"
+
 echo "::group::Generating new .SRCINFO based on PKGBUILD"
 makepkg --printsrcinfo >.SRCINFO
 git diff .SRCINFO

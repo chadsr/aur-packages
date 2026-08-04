@@ -28,3 +28,14 @@ jobs:
       - uses: hadolint/hadolint-action@2a66e89f53d0771bb131a7fa31f3136336094aa6 # v3.4.0
         with:
           dockerfile: .github/actions/aur/Dockerfile
+  lint-namcap:
+    name: Lint PKGBUILDs (namcap)
+    runs-on: ubuntu-latest
+    container:
+      image: archlinux:base-devel
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - name: Install namcap
+        run: pacman -Syu --noconfirm --needed namcap
+      - name: Check PKGBUILDs with namcap
+        run: .github/scripts/namcap-pkgbuild.sh
