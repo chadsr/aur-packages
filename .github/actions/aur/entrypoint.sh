@@ -39,14 +39,6 @@ if [ -s namcap-pkg.log ]; then
 else
 	echo "namcap: no issues found"
 fi
-if [ -n "${GITHUB_STEP_SUMMARY:-}" ]; then
-	{
-		echo "### namcap (built package)"
-		echo '```'
-		cat namcap-pkg.log
-		echo '```'
-	} >>"$GITHUB_STEP_SUMMARY"
-fi
 echo "::endgroup::"
 
 echo "::group::Generating new .SRCINFO based on PKGBUILD"
