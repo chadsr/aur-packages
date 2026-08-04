@@ -4,7 +4,7 @@ pkgname=hyprls
 pkgver=0.14.0 # renovate: datasource=github-tags depName=hyprland-community/hyprls
 pkgrel=2
 pkgdesc="A LSP server for Hyprland config files"
-arch=('any')
+arch=('x86_64' 'aarch64')
 url="https://github.com/hyprland-community/hyprls"
 license=('MIT')
 optdepends=('hyprland')
