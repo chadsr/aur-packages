@@ -25,6 +25,6 @@ jobs:
         with:
           extra-args: >-
             --from-ref ${{ github.event.pull_request.base.sha }} --to-ref ${{ github.event.pull_request.head.sha }}
-      - uses: hadolint/hadolint-action@v3.1.0
+      - uses: hadolint/hadolint-action@2a66e89f53d0771bb131a7fa31f3136336094aa6 # v3.4.0
         with:
           dockerfile: .github/actions/aur/Dockerfile
