@@ -21,6 +21,11 @@ echo "::group::Updating archlinux-keyring"
 sudo pacman -S --noconfirm archlinux-keyring
 echo "::endgroup::"
 
+echo "::group::Installing paru"
+git clone https://aur.archlinux.org/paru-bin.git /tmp/paru-bin
+(cd /tmp/paru-bin && makepkg -si --noconfirm)
+echo "::endgroup::"
+
 echo "::group::Updating checksums on PKGBUILD"
 updpkgsums
 git diff PKGBUILD
