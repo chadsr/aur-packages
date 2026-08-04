@@ -5,7 +5,7 @@
 # - https://aur.archlinux.org/ollama-for-amd-git
 
 pkgname=ollama-for-amd
-pkgver=0.30.0 # renovate: datasource=github-tags depName=likelovewant/ollama-for-amd
+pkgver=0.30.0 # renovate: datasource=github-releases depName=likelovewant/ollama-for-amd
 pkgrel=2
 pkgdesc='Create, run and share large language models (LLMs) with ROCm, patched for AMD GPUs'
 arch=(x86_64 aarch64)
