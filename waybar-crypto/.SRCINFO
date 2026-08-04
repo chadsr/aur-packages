@@ -11,7 +11,7 @@ pkgbase = waybar-crypto
 	depends = python
 	depends = python-requests
 	provides = waybar-crypto
-	source = https://github.com/chadsr/waybar-crypto/archive/v1.6.1.tar.gz
+	source = waybar-crypto-1.6.1.tar.gz::https://github.com/chadsr/waybar-crypto/archive/v1.6.1.tar.gz
 	sha512sums = d708097ea4d5868ca2e1eb58003d5c501a877e9563abd14d48da3c057840bbce2fd1b4f5818ccaee0cc4aa6d1e419733920f79539ee74fb6132ff87ddcc1bbc6
 
 pkgname = waybar-crypto

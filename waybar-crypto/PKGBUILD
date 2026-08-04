@@ -9,7 +9,7 @@ url='https://github.com/chadsr/waybar-crypto'
 depends=('python' 'python-requests')
 makedepends=('python-build' 'python-installer' 'python-hatchling')
 license=('MIT')
-source=("${url}/archive/v${pkgver}.tar.gz")
+source=("${pkgname}-${pkgver}.tar.gz::${url}/archive/v${pkgver}.tar.gz")
 sha512sums=('d708097ea4d5868ca2e1eb58003d5c501a877e9563abd14d48da3c057840bbce2fd1b4f5818ccaee0cc4aa6d1e419733920f79539ee74fb6132ff87ddcc1bbc6')
 provides=("$pkgname")
 
