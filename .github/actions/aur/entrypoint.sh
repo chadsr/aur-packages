@@ -1,6 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Nested makepkg build scripts may append to $GITHUB_ENV.
+# In a container action that file is host-owned and read-only to the builder,
+# so repoint to writable files to avoid "Permission denied" during the build.
+export GITHUB_ENV=/tmp/.gh-env
+export GITHUB_PATH=/tmp/.gh-path
+: >"$GITHUB_ENV"
+: >"$GITHUB_PATH"
+
 echo "::group::Updating"
 sudo pacman -Syu --noconfirm
 echo "::endgroup::"
