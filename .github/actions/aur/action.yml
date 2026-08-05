@@ -5,15 +5,9 @@ branding:
   icon: 'package'
   color: 'blue'
 inputs:
-  action:
-    description: "Which action to take. Can be 'updpkgsums' or 'publish'"
-    required: true
   pkgname:
-    description: ''
+    description: 'Package directory name'
     required: true
 runs:
   using: docker
-  image: 'Dockerfile'
-  args:
-    - ${{ inputs.action }}
-    - ${{ inputs.pkgname }}
+  image: docker://aur-builder:latest

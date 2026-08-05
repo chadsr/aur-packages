@@ -26,8 +26,17 @@ updpkgsums
 git diff PKGBUILD
 echo "::endgroup::"
 
+echo "::group::Installing depends using yay"
+depends=()
+makedepends=()
+# shellcheck source=/dev/null
+source PKGBUILD
+# shellcheck disable=SC2154
+yay -Syu --removemake --needed --noconfirm "${depends[@]}" "${makedepends[@]}"
+echo "::endgroup::"
+
 echo "::group::Running makepkg"
-makepkg -s --noconfirm
+makepkg
 echo "::endgroup::"
 
 echo "::group::namcap (built package)"
