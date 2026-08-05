@@ -1,0 +1,22 @@
+name: 'Build AUR builder image'
+description: 'Builds the Arch Linux builder image (yay + tools) with GitHub Actions layer caching, keyed on the pacman version. Loads it locally as aur-builder:latest for the downstream docker action.'
+runs:
+  using: composite
+  steps:
+    - name: Get current pacman version
+      id: pacman
+      shell: bash
+      run: |
+        ver=$(curl -fsSL https://archlinux.org/packages/core/x86_64/pacman/json/ | jq -r '.pkgver')
+        echo "ver=$ver" >> "$GITHUB_OUTPUT"
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+    - name: Build builder image
+      uses: docker/build-push-action@v6
+      with:
+        context: .github/actions/aur
+        file: .github/actions/aur/Dockerfile
+        tags: aur-builder:latest
+        load: true
+        cache-from: type=gha,ref=aur-builder-${{ steps.pacman.outputs.ver }}-${{ hashFiles('.github/actions/aur/Dockerfile', '.github/actions/aur/entrypoint.sh') }}
+        cache-to: type=gha,ref=aur-builder-${{ steps.pacman.outputs.ver }}-${{ hashFiles('.github/actions/aur/Dockerfile', '.github/actions/aur/entrypoint.sh') }},mode=max
