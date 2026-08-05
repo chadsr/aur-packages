@@ -3,8 +3,8 @@
 # Contributor: Carson Rueter <roachh at proton mail dot com>
 
 pkgname=vscodium-features
-# this version is equvalent of vscodium-bin-features 1.82.0-4
-pkgver=1.82.2
+# this version is equvalent of code-features 1.119.0-1
+pkgver=1.119.0
 pkgrel=1
 pkgdesc='Unblock some features in VSCodium'
 arch=('any')
@@ -17,7 +17,7 @@ source=("${pkgname}.hook"
 	'patch.json')
 sha256sums=('25cc203f7c49f665ff460417768955c5bf308cfc82940a245e6636d8aa2c013e'
 	'2732d538443a46984607bf0cae4d07eea6a87904c47ee89d44de8312ec0c3ce6'
-	'e534f1277edae09bc99ba91af9ac89c6f0f2e2ef194ec2da276d945c69cec756')
+	'67cdb01998f4873baace9cf412c46a5d9ef1de314c5264a8ce26fc40af7e0e94')
 
 package() {
 	install -Dm 644 ${pkgname}.hook "${pkgdir}/usr/share/libalpm/hooks/${pkgname}.hook"
