@@ -1,15 +1,31 @@
 #!/usr/bin/env python3
 
-import sys
 import json
 import os
+import sys
 
 pkt_name = sys.argv[1]
 operation = sys.argv[2]
 
 product_path = "/usr/share/vscodium/resources/app/product.json"
-patch_path = "/usr/share/%s/patch.json" % pkt_name
-cache_path = "/usr/share/%s/cache.json" % pkt_name
+patch_path = f"/usr/share/{pkt_name}/patch.json"
+cache_path = f"/usr/share/{pkt_name}/cache.json"
+
+
+class term_colors:
+    WARNING = "\033[93m"
+    ENDC = "\033[0m"
+
+
+if not os.path.exists(product_path):
+    print(
+        term_colors.WARNING
+        + "WARN: "
+        + term_colors.ENDC
+        + product_path
+        + " does not exist. You need to install vscodium to use this package. Skipping..."
+    )
+    sys.exit(0)
 
 if not os.path.exists(cache_path):
     with open(cache_path, "w") as file:
