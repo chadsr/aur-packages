@@ -12,7 +12,7 @@ repos:
       - id: mixed-line-ending
         args: [--fix=lf]
       - id: pretty-format-json
-        args: ['--autofix']
+        args: [--autofix, --no-sort-keys]
   - repo: https://github.com/google/yamlfmt
     rev: v0.21.0
     hooks:
@@ -31,9 +31,9 @@ repos:
         alias: shellcheck-pkgbuild
         name: shellcheck (PKGBUILD)
         files: '(^|/)PKGBUILD$'
-        args: ['--rcfile=.shellcheckrc-pkgbuild']
+        args: [--rcfile=.shellcheckrc-pkgbuild]
   - repo: https://github.com/rhysd/actionlint
     rev: v1.7.12
     hooks:
       - id: actionlint
-        args: ['-shellcheck']
+        args: [-shellcheck]
