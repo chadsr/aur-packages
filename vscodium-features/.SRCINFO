@@ -1,0 +1,19 @@
+pkgbase = vscodium-features
+	pkgdesc = Unblock some features in VSCodium
+	pkgver = 1.82.2
+	pkgrel = 1
+	url = https://github.com/microsoft/vscode
+	install = vscodium-features.install
+	arch = any
+	depends = vscodium
+	depends = python
+	depends = python-requests
+	optdepends = org.freedesktop.secrets: for settings sync feature
+	source = vscodium-features.hook
+	source = patch.py
+	source = patch.json
+	sha256sums = 25cc203f7c49f665ff460417768955c5bf308cfc82940a245e6636d8aa2c013e
+	sha256sums = 5539afacf560f9d5b14f9aea087b9f320922bf702877086d7886af91d632e659
+	sha256sums = e534f1277edae09bc99ba91af9ac89c6f0f2e2ef194ec2da276d945c69cec756
+
+pkgname = vscodium-features
