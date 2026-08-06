@@ -1,7 +1,7 @@
 # Maintainer: chadsr <git at ross dot ch>
 
 pkgname=wolvenkit-cli-bin
-pkgver=8.19.0 # renovate: datasource=github-releases depName=WolvenKit/WolvenKit
+pkgver=8.20.0 # renovate: datasource=github-releases depName=WolvenKit/WolvenKit
 pkgrel=2
 pkgdesc='A modding tool for Cyberpunk 2077'
 arch=('x86_64')
