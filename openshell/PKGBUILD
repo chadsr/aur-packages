@@ -2,7 +2,7 @@
 
 pkgname=openshell
 pkgver=0.0.102 # renovate: datasource=github-releases depName=NVIDIA/OpenShell
-pkgrel=1
+pkgrel=2
 pkgdesc="The safe, private runtime for autonomous AI agents."
 arch=('x86_64' 'aarch64')
 url='https://github.com/NVIDIA/OpenShell'
@@ -38,9 +38,11 @@ build() {
 	export OPENSHELL_GIT_VERSION="$pkgver"
 	export OPENSHELL_IMAGE_TAG="$pkgver"
 
-	cargo build --frozen --release \
+	# --no-default-features disables telemetry
+	cargo build --frozen --release --no-default-features \
 		--bin openshell \
-		--bin openshell-gateway
+		--bin openshell-gateway \
+		--bin openshell-driver-vm
 
 	# man pages (markdown -> roff via pandoc, matching the RPM)
 	pandoc -s -t man deploy/man/openshell.1.md -o openshell.1
@@ -66,6 +68,7 @@ package() {
 	cd "OpenShell-$pkgver" || exit
 	install -Dm0755 target/release/openshell -t "$pkgdir/usr/bin/"
 	install -Dm0755 target/release/openshell-gateway -t "$pkgdir/usr/bin/"
+	install -Dm0755 target/release/openshell-driver-vm -t "$pkgdir/usr/lib/$pkgname/"
 
 	install -Dm0644 deploy/deb/openshell-gateway.service \
 		"$pkgdir/usr/lib/systemd/user/openshell-gateway.service"
