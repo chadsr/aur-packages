@@ -41,11 +41,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Get PKGBUILD version
+        id: pkgbuild_version
+        run: |
+          source ${{ matrix.pkgbuild }}/PKGBUILD
+          echo "version=${pkgver}-${pkgrel}" >> "$GITHUB_OUTPUT"
       - name: Publish package
         uses: KSXGitHub/github-actions-deploy-aur@084b0d9b15415bf9cdb65d44dad1efe37a354050 # v4.2.0
         with:
           pkgname: ${{ matrix.pkgbuild }}
-          pkgbuild: ${{ matrix.pkgbuild }}/PKGBUILD
+          asset_dir: ${{ matrix.pkgbuild }}/
+          commit_message: '${{ matrix.pkgbuild }} ${{ steps.pkgbuild_version.outputs.version }}'
           commit_username: ${{ secrets.AUR_USERNAME }}
           commit_email: ${{ secrets.AUR_EMAIL }}
           ssh_private_key: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
