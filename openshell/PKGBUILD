@@ -1,7 +1,7 @@
 # Maintainer: Ross (chadsr) <git at ross dot ch>
 
 pkgname=openshell
-pkgver=0.0.97 # renovate: datasource=github-releases depName=NVIDIA/OpenShell
+pkgver=0.0.102 # renovate: datasource=github-releases depName=NVIDIA/OpenShell
 pkgrel=1
 pkgdesc="The safe, private runtime for autonomous AI agents."
 arch=('x86_64' 'aarch64')
