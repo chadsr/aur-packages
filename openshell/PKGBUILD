@@ -1,7 +1,7 @@
 # Maintainer: Ross (chadsr) <git at ross dot ch>
 
 pkgname=openshell
-pkgver=0.0.97 # renovate: datasource=github-releases depName=NVIDIA/OpenShell
+pkgver=0.0.102 # renovate: datasource=github-releases depName=NVIDIA/OpenShell
 pkgrel=1
 pkgdesc="The safe, private runtime for autonomous AI agents."
 arch=('x86_64' 'aarch64')
@@ -23,7 +23,7 @@ optdepends=(
 conflicts=("$pkgname-bin" "$pkgname-git")
 options=('!lto')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
-b2sums=('2b76688cd1e1072c92f6c79dacc209d20a89e726723cc9d8de338e4397e7d203c6c8121e12a96d49a32f68b195ae376481127b48172cdb94d3174f79ced7c080')
+b2sums=('2c04226f56badbb3b8e41d3cf0f81684c4b29f53d58604e5c3388fc6ac1b34c5c4e81a27304296f5d591bbdb25605d9f1584aeb1fadd18973d5fe208d0a34569')
 
 prepare() {
 	cd "OpenShell-$pkgver" || exit
