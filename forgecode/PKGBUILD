@@ -1,4 +1,4 @@
-# Maintainer: Ross <git at ross dot ch>
+# Maintainer: chadsr <git at ross dot ch>
 
 pkgname=forgecode
 pkgver=2.13.21 # renovate: datasource=github-releases depName=antinomyhq/forgecode
@@ -25,23 +25,23 @@ b2sums=('3a1c4a36e640f03202401e155d7195c4a566d45e0ac1a4c7db83f0c807c39b941ad0520
 options=(!lto)
 
 prepare() {
-	cd "$pkgname-$pkgver" || exit
-	cargo fetch --locked
+	cd "$pkgname-$pkgver"
+	cargo fetch --locked --target "$(rustc -vV | sed -n 's/host: //p')"
 }
 
 build() {
-	cd "$pkgname-$pkgver" || exit
+	cd "$pkgname-$pkgver"
 	export CARGO_TARGET_DIR=target
 	APP_VERSION="$pkgver" cargo build --frozen --release
 }
 
 check() {
-	cd "$pkgname-$pkgver" || exit
+	cd "$pkgname-$pkgver"
 	cargo test --frozen --workspace --exclude forge_ci
 }
 
 package() {
-	cd "$pkgname-$pkgver" || exit
+	cd "$pkgname-$pkgver"
 	install -Dm0755 -t "$pkgdir/usr/bin/" "target/release/forge"
 
 	install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
