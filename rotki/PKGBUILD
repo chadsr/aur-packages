@@ -21,6 +21,7 @@ makedepends=(
 	'nodejs'
 	'pnpm'
 	'nvm'
+	'libxcrypt-compat'
 )
 options=(!lto)
 source=(

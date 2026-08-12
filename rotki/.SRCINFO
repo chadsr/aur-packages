@@ -12,6 +12,7 @@ pkgbase = rotki
 	makedepends = nodejs
 	makedepends = pnpm
 	makedepends = nvm
+	makedepends = libxcrypt-compat
 	depends = electron41
 	depends = zlib
 	depends = hicolor-icon-theme
