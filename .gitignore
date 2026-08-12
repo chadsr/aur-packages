@@ -5,6 +5,9 @@
 *.oxt
 *.AppImage
 
+*/**/LICENSE
+*/**/LICENSE.md
+
 # signed sources
 *.asc
 *.sig
