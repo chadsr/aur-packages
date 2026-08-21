@@ -1,7 +1,7 @@
 # Maintainer: chadsr <git at ross dot ch>
 
 pkgname=rotki
-pkgver=1.43.2 # renovate: datasource=github-releases depName=rotki/rotki
+pkgver=1.44.0 # renovate: datasource=github-releases depName=rotki/rotki
 pkgrel=3
 pkgdesc='A portfolio tracking, analytics, accounting and management application that protects your privacy'
 arch=('x86_64' 'aarch64')
