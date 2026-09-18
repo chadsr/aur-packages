@@ -1,7 +1,7 @@
 # Maintainer: Ross <git@ross.ch>
 
 pkgname=docker-secrets-engine-shim
-pkgver=0.1.1 # renovate: datasource=github-releases depName=chadsr/docker-secrets-engine-shim
+pkgver=0.2.0 # renovate: datasource=github-releases depName=chadsr/docker-secrets-engine-shim
 pkgrel=1
 pkgdesc="Unofficial Docker Secrets Engine implementation, via docker-credential-helpers"
 arch=('x86_64' 'aarch64')
