@@ -2,7 +2,7 @@
 
 pkgname=forgecode
 pkgver=2.13.21 # renovate: datasource=github-releases depName=antinomyhq/forgecode
-pkgrel=2
+pkgrel=1
 pkgdesc="An AI-powered code assistant CLI tool"
 arch=('x86_64' 'aarch64')
 url="https://github.com/antinomyhq/forgecode"
