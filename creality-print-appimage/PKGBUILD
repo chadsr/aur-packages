@@ -2,8 +2,8 @@
 
 pkgname=creality-print-appimage
 pkgver=7.3.0 # renovate: datasource=github-releases depName=CrealityOfficial/CrealityPrint
-pkgrel=2
-_build_id=5476
+pkgrel=1
+_build_id=6151
 pkgdesc="Creality Print is a slicer dedicated to FDM printers."
 arch=('x86_64')
 url="https://github.com/CrealityOfficial/CrealityPrint"
