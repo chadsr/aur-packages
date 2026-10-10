@@ -37,10 +37,11 @@ echo "::endgroup::"
 echo "::group::Installing depends using yay"
 depends=()
 makedepends=()
+checkdepends=()
 # shellcheck source=/dev/null
 source PKGBUILD
 # shellcheck disable=SC2154
-yay -Syu --removemake --needed --noconfirm "${depends[@]}" "${makedepends[@]}"
+yay -Syu --removemake --needed --noconfirm "${depends[@]}" "${makedepends[@]}" "${checkdepends[@]}"
 echo "::endgroup::"
 
 echo "::group::Running makepkg"
