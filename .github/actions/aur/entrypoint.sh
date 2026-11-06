@@ -44,6 +44,14 @@ source PKGBUILD
 yay -Syu --removemake --needed --noconfirm "${depends[@]}" "${makedepends[@]}" "${checkdepends[@]}"
 echo "::endgroup::"
 
+setup="$GITHUB_WORKSPACE/.github/ci/setup/$INPUT_PKGNAME.sh"
+if [ -f "$setup" ]; then
+	echo "::group::Package setup ($INPUT_PKGNAME)"
+	# shellcheck source=/dev/null
+	source "$setup"
+	echo "::endgroup::"
+fi
+
 echo "::group::Running makepkg"
 makepkg
 echo "::endgroup::"
