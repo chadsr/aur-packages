@@ -1,7 +1,7 @@
 # Maintainer: chadsr <git at ross dot ch>
 
 pkgname=herdr-core
-pkgver=0.1.18 # renovate: datasource=github-tags depName=herdrdev/herdr-core
+pkgver=0.1.19 # renovate: datasource=github-tags depName=herdrdev/herdr-core
 pkgrel=1
 pkgdesc="Run programs and coding agents in terminals that stay alive after you leave"
 arch=('x86_64' 'aarch64')
