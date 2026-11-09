@@ -34,7 +34,7 @@ conflicts=('herdr-gpui' "$pkgname-bin")
 replaces=('herdr-gpui')
 options=('!lto')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
-b2sums=('082469cef56b380f4cdffd689a66961338c3a0dd1c60faf3c0ac9c8d2bfa6e8a4f115a98c52c918afc71b181ff0fa47984f9f83cba31c3f568ee0568fb6ea795')
+b2sums=('417cec841a6de9474d05f583054ab0d76868951283d3ff0d83cb8156319835b3cc6e5372dfff251ddd3ea8e448254d17cd3afafd6557e7cb8aa155e65a12c455')
 
 prepare() {
 	cd "$pkgname-$pkgver"
