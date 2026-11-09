@@ -78,8 +78,8 @@ package() {
 	ln -s sheprd-nearby "$pkgdir/usr/bin/herdr-nearby"
 	ln -s sheprd-remote-control "$pkgdir/usr/bin/herdr-remote-control"
 
-	install -Dm0644 scripts/release/so.pen.herdr-gpui.desktop \
-		"$pkgdir/usr/share/applications/so.pen.herdr-gpui.desktop"
+	install -Dm0644 scripts/release/org.sheprd.Sheprd.desktop \
+		"$pkgdir/usr/share/applications/org.sheprd.Sheprd.desktop"
 	install -Dm0644 assets/icons/sheprd-linux.svg \
 		"$pkgdir/usr/share/icons/hicolor/scalable/apps/sheprd.svg"
 
