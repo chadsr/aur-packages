@@ -1,7 +1,7 @@
 # Maintainer: chadsr <git at ross dot ch>
 
 pkgname=herdr-app
-pkgver=0.1.14 # renovate: datasource=github-tags depName=herdrdev/herdr-app
+pkgver=0.1.15 # renovate: datasource=github-tags depName=herdrdev/herdr-app
 pkgrel=1
 pkgdesc="Native desktop workspace for terminals and coding agents that keep running"
 arch=('x86_64' 'aarch64')
