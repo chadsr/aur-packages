@@ -60,6 +60,7 @@ check() {
 	cd "$pkgname-$pkgver"
 	export CARGO_TARGET_DIR=target
 	export GIT_CEILING_DIRECTORIES="$srcdir"
+	export USER="${USER:-$(id -un)}" # some test depend on USER being set
 
 	cargo test --frozen --release -p sheprd-gpui --test cli
 	cargo test --frozen --release --lib \
