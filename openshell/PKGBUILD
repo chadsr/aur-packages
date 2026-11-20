@@ -28,6 +28,7 @@ b2sums=('ac4f6ba8bb832f2885ba790fb90855392ba548ff538a144275bb26f3873b74d0705e44c
 
 prepare() {
 	cd "openshell-$pkgver"
+	export RUSTC_WRAPPER=
 
 	# stamp pkgver like openshell.spec; sync lock for --frozen
 	sed -i "s/^version = \"0.0.0\"/version = \"$pkgver\"/" Cargo.toml
@@ -48,6 +49,7 @@ build() {
 	export OPENSHELL_IMAGE_TAG="$pkgver"
 	export GIT_CEILING_DIRECTORIES="$PWD" # prevent git-describing the enclosing repo
 	export AWS_LC_SYS_USE_SYSTEM=0        # always build vendored aws-lc
+	export RUSTC_WRAPPER=
 
 	# telemetry-free gateway; separate build to avoid telemetry via feature unification
 	cargo build --frozen --release -p openshell-gateway \
@@ -75,6 +77,7 @@ check() {
 	export OPENSHELL_IMAGE_TAG="$pkgver"
 	export GIT_CEILING_DIRECTORIES="$PWD"
 	export AWS_LC_SYS_USE_SYSTEM=0
+	export RUSTC_WRAPPER=
 
 	cargo test --frozen --lib -p openshell-gateway \
 		--no-default-features --features defaults-without-telemetry
