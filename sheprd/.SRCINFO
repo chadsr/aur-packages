@@ -9,7 +9,6 @@ pkgbase = sheprd
 	makedepends = cargo
 	makedepends = fontconfig
 	makedepends = freetype2
-	makedepends = sqlite
 	depends = libgcc
 	depends = libstdc++
 	depends = sqlite

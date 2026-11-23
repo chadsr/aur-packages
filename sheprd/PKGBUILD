@@ -19,7 +19,7 @@ depends=(
 	'vulkan-icd-loader'
 	'hicolor-icon-theme'
 )
-makedepends=('cargo' 'fontconfig' 'freetype2' 'sqlite') # -sys build scripts probe pkg-config
+makedepends=('cargo' 'fontconfig' 'freetype2') # -sys build scripts probe pkg-config
 optdepends=(
 	'xdg-utils: open URLs in your browser'
 	'git: remote workspaces and unpushed-work checks'
