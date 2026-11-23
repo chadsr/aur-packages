@@ -4,7 +4,7 @@ set -euo pipefail
 pkgdir="${1:-}"
 base_sha="${2:-}"
 
-if [ -z "$pkgdir" ]; then
+if [[ -z "$pkgdir" ]]; then
 	echo "usage: $0 <pkgdir> [base-sha]" >&2
 	exit 2
 fi
@@ -18,7 +18,7 @@ fi
 
 new_pkgver=$(awk '/^pkgver=/{sub(/^pkgver=/,""); print $1; exit}' "$pkgbuild")
 
-if [ -z "$base_sha" ]; then
+if [[ -z "$base_sha" ]]; then
 	echo "no base sha given; leaving pkgrel unchanged"
 	exit 0
 fi
@@ -29,7 +29,7 @@ else
 	old_pkgver=""
 fi
 
-if [ -z "$old_pkgver" ]; then
+if [[ -z "$old_pkgver" ]]; then
 	echo "no base PKGBUILD at ${base_sha}; leaving pkgrel unchanged"
 elif [ "$old_pkgver" != "$new_pkgver" ]; then
 	sed -i 's/^pkgrel=.*/pkgrel=1/' "$pkgbuild"

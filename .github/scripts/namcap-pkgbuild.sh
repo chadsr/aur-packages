@@ -11,10 +11,10 @@ for p in */PKGBUILD; do
 	if [ "${#lines[@]}" -gt 0 ]; then
 		found=1
 		for line in "${lines[@]}"; do
-			[ -z "$line" ] && continue
+			[[ -z "$line" ]] && continue
 			echo "::warning file=${pkgdir}/PKGBUILD::namcap: ${line}"
 		done
-		if [ -n "$summary" ]; then
+		if [[ -n "$summary" ]]; then
 			{
 				echo "### namcap: ${pkgdir}"
 				echo '```'

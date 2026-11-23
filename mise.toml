@@ -1,0 +1,10 @@
+[tools]
+hadolint = "latest"
+hk = "latest"
+jactionlint = "latest"
+jq = "latest"
+shellcheck = "latest"
+shellharden = "latest"
+shfmt = "latest"
+yamlfmt = "latest"
+zizmor = "latest"

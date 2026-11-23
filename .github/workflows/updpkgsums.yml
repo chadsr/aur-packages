@@ -4,11 +4,19 @@ on:
     types:
       - opened
       - synchronize
+      - reopened
     branches:
       - main
+permissions:
+  contents: read
+concurrency:
+  group: updpkgsums-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
 jobs:
   find-packages:
+    name: Find changed packages
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     outputs:
       count: ${{ steps.packages.outputs.count }}
       packages: ${{ steps.packages.outputs.packages }}
@@ -18,6 +26,7 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
       - name: Find updated packages
         id: packages
         env:
@@ -30,8 +39,8 @@ jobs:
           packages=$(.github/scripts/find-changed-packages.sh "$BASE_SHA" "$HEAD_SHA")
           echo "count=$(jq length <<<"$packages")" >> "$GITHUB_OUTPUT"
           echo "packages=$packages" >> "$GITHUB_OUTPUT"
-  validate:
-    name: Validate ${{ matrix.pkgbuild }}
+  update:
+    name: Update ${{ matrix.pkgbuild }}
     needs: find-packages
     if: ${{ needs.find-packages.outputs.count != '0' }}
     strategy:
@@ -39,29 +48,67 @@ jobs:
       matrix:
         pkgbuild: ${{ fromJSON(needs.find-packages.outputs.packages) }}
     runs-on: ubuntu-latest
+    timeout-minutes: 120
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - name: Restore source cache
+        id: sources
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: .pkgsrc-cache
+          key: pkgsrc-${{ matrix.pkgbuild }}-${{ hashFiles(format('{0}/PKGBUILD', matrix.pkgbuild)) }}
       - name: Reset pkgrel on version bump
-        run: .github/scripts/reset-pkgrel.sh "${{ matrix.pkgbuild }}" "${{ github.event.pull_request.base.sha }}"
+        env:
+          PKGBUILD_DIR: ${{ matrix.pkgbuild }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: .github/scripts/reset-pkgrel.sh "$PKGBUILD_DIR" "$BASE_SHA"
       - name: Build builder image
-        uses: ./.github/actions/aur-build
-      - name: Validate package
-        uses: ./.github/actions/aur
+        id: build
+        uses: $/.github/actions/aur-build
+      - name: Update checksums
+        uses: $/.github/actions/aur
         with:
           pkgname: ${{ matrix.pkgbuild }}
-      - name: Install prek
-        uses: j178/prek-action@7b101f8338a08d2bd6fdb3625e4e7692428763a3 # v3.1.1
+          mode: update
+          image: ${{ steps.build.outputs.image }}
+      - uses: jdx/mise-action@236a21c3b91f5db6d4e174b348674a0f0caac06d # v5.2.9
         with:
-          install-only: true
+          install: false
+          cache: false
+      - name: Compute mise cache key
+        id: mise-versions
+        run: echo "key=mise-$(mise current | sort | sha256sum | cut -d' ' -f1)" >> "$GITHUB_OUTPUT"
+      - name: Cache mise tools
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.local/share/mise
+          key: ${{ steps.mise-versions.outputs.key }}
+      - name: Install tools
+        run: mise install
       - name: Format regenerated files
         env:
           PKG: ${{ matrix.pkgbuild }}
-        run: prek run --files "$PKG/PKGBUILD" "$PKG/.SRCINFO" || true
+        run: mise exec -- hk fix "$PKG/PKGBUILD" "$PKG/.SRCINFO" || true
+      - name: Check for changes
+        id: changed
+        env:
+          PKG: ${{ matrix.pkgbuild }}
+        run: |
+          #!/usr/bin/env bash
+          set -euo pipefail
+
+          if [ -n "$(git status --porcelain -- "$PKG")" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
       - name: Stage updated package
+        if: steps.changed.outputs.changed == 'true'
         env:
           PKGBUILD_DIR: ${{ matrix.pkgbuild }}
         run: |
@@ -72,27 +119,38 @@ jobs:
           mkdir -p "$destination"
           cp "$PKGBUILD_DIR/PKGBUILD" "$PKGBUILD_DIR/.SRCINFO" "$destination/"
       - name: Upload updated package
+        if: steps.changed.outputs.changed == 'true'
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: updated-${{ matrix.pkgbuild }}
           path: ${{ runner.temp }}/updated-packages
           if-no-files-found: error
           include-hidden-files: true
+      - name: Save source cache
+        if: steps.sources.outputs.cache-hit != 'true'
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: .pkgsrc-cache
+          key: pkgsrc-${{ matrix.pkgbuild }}-${{ hashFiles(format('{0}/PKGBUILD', matrix.pkgbuild)) }}
   commit:
+    name: Commit updated sums
     needs:
       - find-packages
-      - validate
-    if: ${{ needs.find-packages.outputs.count != '0' && needs.validate.result == 'success' }}
+      - update
+    if: ${{ needs.find-packages.outputs.count != '0' && needs.update.result == 'success' }}
     runs-on: ubuntu-latest
-    permissions:
-      # git-auto-commit-action needs write access to update the pull request branch.
-      contents: write
+    timeout-minutes: 5
+    environment: commit
+    outputs:
+      committed: ${{ steps.commit.outputs.changes_detected }}
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          fetch-depth: 0
           ref: ${{ github.head_ref }}
+          # PAT so the push triggers CI on the final SHA (GITHUB_TOKEN pushes do not).
+          token: ${{ secrets.UPDPKGSUMS_PAT }}
+          persist-credentials: false
       - name: Download updated packages
         uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
@@ -100,6 +158,40 @@ jobs:
           path: ${{ github.workspace }}
           merge-multiple: true
       - name: Commit
-        uses: stefanzweifel/git-auto-commit-action@d0b01107b5db882071f96de5dd4b54961ea93f4c # v7.2.1
+        id: commit
+        env:
+          PAT: ${{ secrets.UPDPKGSUMS_PAT }}
+        run: .github/scripts/commit-updated-sums.sh
+  validate:
+    name: Validate ${{ matrix.pkgbuild }}
+    needs:
+      - find-packages
+      - commit
+    if: ${{ needs.find-packages.outputs.count != '0' && needs.commit.outputs.committed == 'false' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        pkgbuild: ${{ fromJSON(needs.find-packages.outputs.packages) }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          file_pattern: '*/PKGBUILD */.SRCINFO'
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - name: Restore source cache
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: .pkgsrc-cache
+          key: pkgsrc-${{ matrix.pkgbuild }}-${{ hashFiles(format('{0}/PKGBUILD', matrix.pkgbuild)) }}
+      - name: Build builder image
+        id: build
+        uses: $/.github/actions/aur-build
+      - name: Validate package
+        uses: $/.github/actions/aur
+        with:
+          pkgname: ${{ matrix.pkgbuild }}
+          mode: build
+          image: ${{ steps.build.outputs.image }}
