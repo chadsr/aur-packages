@@ -35,9 +35,13 @@ jobs:
         run: mise install
       - name: Check all files (main)
         if: ${{ github.ref == 'refs/heads/main' }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: mise exec -- hk check --all
       - name: Check changed files (PR)
         if: ${{ github.ref != 'refs/heads/main' }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: mise exec -- hk check --from-ref origin/main --to-ref HEAD
   lint-namcap:
     name: Lint PKGBUILDs (namcap)
