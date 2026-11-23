@@ -1,0 +1,36 @@
+amends "package://github.com/jdx/hk/releases/download/v2.13.0/hk@2.13.0#/Config.pkl"
+import "package://github.com/jdx/hk/releases/download/v2.13.0/hk@2.13.0#/Builtins.pkl"
+// Using a coding agent? See https://hk.jdx.dev/agents
+
+local linters = new Mapping {
+    ["detect-private-key"] = Builtins.detect_private_key
+    ["jq"] = (Builtins.jq) {
+        // exclude vendor JSON in package dirs
+        glob = Regex(#"^[^/]+\.json$"#)
+    }
+    ["trailing-whitespace"] = Builtins.trailing_whitespace
+    ["end-of-file-fixer"] = Builtins.newlines
+    ["mixed-line-ending"] = Builtins.mixed_line_ending
+    ["yamlfmt"] = Builtins.yamlfmt
+    ["mise"] = Builtins.mise
+    ["shfmt"] = Builtins.shfmt
+    ["shellcheck"] = (Builtins.shellcheck) {
+        exclude = List("**/PKGBUILD")
+    }
+    ["shellcheck-pkgbuild"] = new Step {
+        batch = true
+        glob = List("**/PKGBUILD")
+        check = "shellcheck --rcfile=.shellcheckrc-pkgbuild {{files}}"
+        diagnostic_format = "shellcheck"
+    }
+    ["shellharden"] = (Builtins.shellharden) {
+        // diagnose only
+        apply_check_diff = false
+        fix = "shellharden --check {{files}}"
+    }
+    ["jactionlint"] = Builtins.jactionlint
+    ["hadolint"] = Builtins.hadolint
+    ["zizmor"] = Builtins.zizmor
+}
+
+steps = linters

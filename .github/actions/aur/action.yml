@@ -8,6 +8,27 @@ inputs:
   pkgname:
     description: 'Package directory name'
     required: true
+  mode:
+    description: "'update' refreshes checksums and .SRCINFO; 'build' installs deps and runs makepkg"
+    required: false
+    default: build
+  image:
+    description: 'Builder image reference from the aur-build action output (sha256:<id>)'
+    required: true
 runs:
-  using: docker
-  image: docker://aur-builder:latest
+  using: composite
+  steps:
+    - name: Run aur-builder
+      shell: bash
+      env:
+        IMAGE: ${{ inputs.image }}
+        INPUT_PKGNAME: ${{ inputs.pkgname }}
+        INPUT_MODE: ${{ inputs.mode }}
+      run: |
+        docker run --rm \
+          -e INPUT_PKGNAME \
+          -e INPUT_MODE \
+          -e GITHUB_WORKSPACE \
+          -v "$GITHUB_WORKSPACE:$GITHUB_WORKSPACE" \
+          -w "$GITHUB_WORKSPACE" \
+          "$IMAGE"

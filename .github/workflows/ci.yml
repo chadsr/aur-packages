@@ -6,35 +6,49 @@ on:
 name: CI
 permissions:
   contents: read
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 jobs:
   lint:
     name: Lint
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           fetch-depth: 0
-      - name: All files (main)
+          persist-credentials: false
+      - uses: jdx/mise-action@236a21c3b91f5db6d4e174b348674a0f0caac06d # v5
+        with:
+          install: false
+          cache: false
+      - name: Compute mise cache key
+        id: mise-versions
+        run: echo "key=mise-$(mise current | sort | sha256sum | cut -d' ' -f1)" >> "$GITHUB_OUTPUT"
+      - name: Cache mise tools
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.local/share/mise
+          key: ${{ steps.mise-versions.outputs.key }}
+      - name: Install tools
+        run: mise install
+      - name: Check all files (main)
         if: ${{ github.ref == 'refs/heads/main' }}
-        uses: j178/prek-action@7b101f8338a08d2bd6fdb3625e4e7692428763a3 # v3.1.1
-        with:
-          extra-args: '--all-files'
-      - name: Changed files (PR)
+        run: mise exec -- hk check --all
+      - name: Check changed files (PR)
         if: ${{ github.ref != 'refs/heads/main' }}
-        uses: j178/prek-action@7b101f8338a08d2bd6fdb3625e4e7692428763a3 # v3.1.1
-        with:
-          extra-args: >-
-            --from-ref ${{ github.event.pull_request.base.sha }} --to-ref ${{ github.event.pull_request.head.sha }}
-      - uses: hadolint/hadolint-action@06be81baf89a55ffd0e24b8f04a4185738dd3387 # v3.5.0
-        with:
-          dockerfile: .github/actions/aur/Dockerfile
+        run: mise exec -- hk check --from-ref origin/main --to-ref HEAD
   lint-namcap:
     name: Lint PKGBUILDs (namcap)
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     container:
-      image: archlinux:base-devel
+      image: archlinux:base-devel@sha256:fa2d4ce3310ddd90a4208e5168be8ad367da5129af1245f38fd2d803bcbe3239
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
       - name: Install namcap
         run: pacman -Syu --noconfirm --needed namcap
       - name: Check PKGBUILDs with namcap
