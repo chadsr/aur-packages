@@ -20,10 +20,11 @@ depends=(
 	'hicolor-icon-theme'
 )
 makedepends=('cargo' 'fontconfig' 'freetype2') # -sys build scripts probe pkg-config
+checkdepends=('openssh')
 optdepends=(
 	'xdg-utils: open URLs in your browser'
 	'git: remote workspaces and unpushed-work checks'
-	'openssh: remote workspaces and git over SSH'
+	'openssh: remote workspaces and fleet/desktop pairing'
 	'wl-clipboard: clipboard on Wayland'
 	'xclip: clipboard on X11'
 	'vulkan-radeon: Vulkan driver for AMD GPUs'
