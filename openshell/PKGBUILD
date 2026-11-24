@@ -1,7 +1,7 @@
 # Maintainer: chadsr <git at ross dot ch>
 
 pkgname=openshell
-pkgver=0.1.9 # renovate: datasource=github-releases depName=ai-openshell/openshell
+pkgver=0.1.10 # renovate: datasource=github-releases depName=ai-openshell/openshell
 pkgrel=2
 pkgdesc="The safe, private runtime for autonomous AI agents."
 arch=('x86_64' 'aarch64')
